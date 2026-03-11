@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>pl.wsztajerowski</groupId>
+        <artifactId>systematic-concurrency-testing-demos</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>06-jcstress</artifactId>
+
+    <properties>
+        <jcstress.version>0.16</jcstress.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>pl.wsztajerowski</groupId>
+            <artifactId>01-lamport-volatile</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>pl.wsztajerowski</groupId>
+            <artifactId>02-lamport-single-thread</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>pl.wsztajerowski</groupId>
+            <artifactId>03-lamport-lock</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjdk.jcstress</groupId>
+            <artifactId>jcstress-core</artifactId>
+            <version>${jcstress.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>
+
