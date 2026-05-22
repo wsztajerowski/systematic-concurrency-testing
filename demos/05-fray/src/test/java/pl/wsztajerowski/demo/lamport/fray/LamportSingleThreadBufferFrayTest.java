@@ -35,6 +35,8 @@ public class LamportSingleThreadBufferFrayTest {
                 if (value.isPresent()) {
                     consumed.add(value.get());
                     count++;
+                } else {
+                    Thread.yield();
                 }
             }
         });

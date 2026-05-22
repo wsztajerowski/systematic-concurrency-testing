@@ -26,43 +26,44 @@ public final class SingleThreadLamportBuffer<E> implements LamportBuffer<E> {
     }
 
     @Override
-    public Optional<E> poll() {
-        if (buffer[readPosition] == null) {
-            return Optional.empty();
-        }
-        E elem = buffer[readPosition];
-        buffer[readPosition] = null;
-        int nextReadPosition = (readPosition + 1 >= buffer.length) ? 0 : readPosition + 1;
-        readPosition = nextReadPosition;
-        return Optional.of(elem);
-    }
-
-    @Override
-    public boolean offer(E element) {
-        Objects.requireNonNull(element, "element must not be null");
-        if (buffer[writePosition] != null) {
+    public boolean offer(E value) {
+        if (isFull()) {
             return false;
         }
-        buffer[writePosition] = element;
-        int nextWritePosition = (writePosition + 1 >= buffer.length) ? 0 : writePosition + 1;
-        writePosition = nextWritePosition;
+        buffer[writePosition] = value;
+        writePosition = writePosition + 1; // brak volatile publication
+        if (writePosition == buffer.length) {
+            writePosition = 0;
+        }
         return true;
     }
 
     @Override
+    @SuppressWarnings("unchecked")
+    public Optional<E> poll() {
+        if (isEmpty()) {
+            return Optional.empty();
+        }
+        Object value = buffer[readPosition];
+        buffer[readPosition] = null;
+        readPosition = readPosition + 1; // brak volatile publication
+        if (readPosition == buffer.length) {
+            readPosition = 0;
+        }
+        return Optional.ofNullable((E) value);
+    }
+
+    @Override
     public boolean isEmpty() {
-        return buffer[readPosition] == null;
+        return size() == 0;
     }
 
     @Override
     public int size() {
-        int diff = writePosition - readPosition;
-        if (diff < 0) {
-            diff += buffer.length;
-        }
-        if (diff == 0 && buffer[readPosition] != null) {
-            return buffer.length;
-        }
-        return diff;
+        return writePosition >= readPosition ? writePosition - readPosition : writePosition - readPosition + 2 * buffer.length;
+    }
+
+    private boolean isFull() {
+        return size() == buffer.length;
     }
 }

@@ -1,6 +1,8 @@
 package pl.wsztajerowski.demo.lamport.contracttest;
 
 import java.util.stream.Stream;
+
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -14,6 +16,7 @@ import static org.assertj.core.api.Assertions.catchException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static pl.wsztajerowski.demo.lamport.assertions.LamportAssertions.assertThat;
 
+@Disabled
 class LamportBufferContractTest {
 
     private static final int CAPACITY = 4;

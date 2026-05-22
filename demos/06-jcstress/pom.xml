@@ -41,5 +41,93 @@
         </dependency>
     </dependencies>
 
-</project>
+    <build>
+        <plugins>
+            <!-- Explicit annotation-processor path so the JCStressTestProcessor
+                 generates test-runner infrastructure classes during compilation. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.openjdk.jcstress</groupId>
+                            <artifactId>jcstress-core</artifactId>
+                            <version>${jcstress.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
 
+            <!-- Build a self-contained fat jar that the jcstress harness can execute. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.5.1</version>
+                <executions>
+                    <execution>
+                        <id>main</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>jcstress</finalName>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>org.openjdk.jcstress.Main</mainClass>
+                                </transformer>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/CompilerHints</resource>
+                                </transformer>
+                            </transformers>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Run jcstress during integration-test phase (after the fat jar is built).
+                 add-opens flags are required by jcstress internals on Java 17+. -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.1</version>
+                <executions>
+                    <execution>
+                        <id>run-jcstress</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>java</executable>
+                            <arguments>
+                                <argument>--add-opens</argument>
+                                <argument>java.base/jdk.internal.misc=ALL-UNNAMED</argument>
+                                <argument>--add-opens</argument>
+                                <argument>java.base/java.lang=ALL-UNNAMED</argument>
+                                <argument>--add-opens</argument>
+                                <argument>java.base/sun.nio.ch=ALL-UNNAMED</argument>
+                                <argument>-jar</argument>
+                                <argument>${project.build.directory}/jcstress.jar</argument>
+                                <argument>-r</argument>
+                                <argument>${project.build.directory}/jcstress-results</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

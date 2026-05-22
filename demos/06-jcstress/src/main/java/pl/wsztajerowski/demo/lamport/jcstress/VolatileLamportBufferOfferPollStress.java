@@ -9,10 +9,12 @@ import pl.wsztajerowski.demo.lamport.LamportBuffer;
 import pl.wsztajerowski.demo.lamport.spsc.VolatileLamportBuffer;
 
 import static org.openjdk.jcstress.annotations.Expect.ACCEPTABLE;
+import static org.openjdk.jcstress.annotations.Expect.FORBIDDEN;
 
 @JCStressTest
 @Outcome(id = "-1", expect = ACCEPTABLE, desc = "Poll ran before offer.")
 @Outcome(id = "42", expect = ACCEPTABLE, desc = "Poll observed offered value.")
+@Outcome(id = ".*", expect = FORBIDDEN, desc = "Unexpected value — data race or logic error.")
 @State
 public class VolatileLamportBufferOfferPollStress {
 

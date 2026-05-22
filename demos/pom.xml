@@ -26,7 +26,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.jupiter.version>5.12.1</junit.jupiter.version>
         <assertj.version>3.27.3</assertj.version>
-        <fray.version>0.8.0</fray.version>
+        <fray.version>0.8.5</fray.version>
     </properties>
 
     <dependencyManagement>
