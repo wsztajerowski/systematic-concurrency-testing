@@ -1,0 +1,89 @@
+/* ── Color tokens ─────────────────────────────────────────────────── */
+:root {
+  --c-blue:   #60a5fa;
+  --c-purple: #a78bfa;
+  --c-orange: #fb923c;
+  --c-green:  #4ade80;
+  --c-red:    #f87171;
+  --c-yellow: #fbbf24;
+}
+
+/* ── Colored section backgrounds ─────────────────────────────────── */
+.section-junit    .slidev-layout { background: linear-gradient(135deg, #0a1628 0%, #0d2052 100%); }
+.section-fray     .slidev-layout { background: linear-gradient(135deg, #160a28 0%, #2d0f52 100%); }
+.section-jcstress .slidev-layout { background: linear-gradient(135deg, #281406 0%, #522808 100%); }
+.section-jmh      .slidev-layout { background: linear-gradient(135deg, #081e08 0%, #0d4018 100%); }
+
+/* ── Card component ───────────────────────────────────────────────── */
+.card {
+  border: 1px solid currentColor;
+  border-radius: 8px;
+  padding: 0.9rem 1.1rem;
+}
+
+.card.blue   { color: var(--c-blue);   background: color-mix(in srgb, var(--c-blue)   8%, transparent); }
+.card.purple { color: var(--c-purple); background: color-mix(in srgb, var(--c-purple) 8%, transparent); }
+.card.orange { color: var(--c-orange); background: color-mix(in srgb, var(--c-orange) 8%, transparent); }
+.card.green  { color: var(--c-green);  background: color-mix(in srgb, var(--c-green)  8%, transparent); }
+.card.red    { color: var(--c-red);    background: color-mix(in srgb, var(--c-red)    8%, transparent); }
+.card.yellow { color: var(--c-yellow); background: color-mix(in srgb, var(--c-yellow) 8%, transparent); }
+
+.card strong { display: block; font-size: 1.05em; margin-bottom: 0.2em; }
+.card small  { display: block; color: rgba(255,255,255,0.72); font-size: 0.75em; margin-top: 0.15em; }
+.card p      { color: rgba(255,255,255,0.8); font-size: 0.85em; margin: 0.3em 0 0; }
+
+/* ── Grid helpers ─────────────────────────────────────────────────── */
+.tools-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.9rem;
+  margin-top: 1.4rem;
+}
+
+.impl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 0.9rem;
+  margin-top: 1.2rem;
+}
+
+/* ── Callout / take-away ──────────────────────────────────────────── */
+.callout {
+  margin-top: 1.4rem;
+  padding: 0.75rem 1.2rem;
+  border-left: 3px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.04);
+  border-radius: 0 6px 6px 0;
+  font-size: 0.9em;
+  color: rgba(255,255,255,0.75);
+}
+
+.callout.blue   { border-color: var(--c-blue);   }
+.callout.purple { border-color: var(--c-purple);  }
+.callout.orange { border-color: var(--c-orange);  }
+.callout.green  { border-color: var(--c-green);   }
+.callout.yellow { border-color: var(--c-yellow);  }
+
+/* ── Golden rules ─────────────────────────────────────────────────── */
+.rule {
+  padding: 0.65rem 1rem;
+  margin-bottom: 1.1rem;
+  border-left: 3px solid;
+  border-radius: 0 6px 6px 0;
+  background: rgba(255,255,255,0.03);
+}
+
+.rule:nth-child(1) { border-color: var(--c-blue);   }
+.rule:nth-child(2) { border-color: var(--c-purple);  }
+.rule:nth-child(3) { border-color: var(--c-green);   }
+
+.rule h2 { font-size: 1em; margin: 0 0 0.25em; }
+.rule p  { font-size: 0.85em; color: rgba(255,255,255,0.78); margin: 0; }
+
+/* ── Cover subtitle ───────────────────────────────────────────────── */
+.cover-tools {
+  margin-top: 2rem;
+  font-size: 1.1em;
+  color: rgba(255,255,255,0.72);
+  letter-spacing: 0.08em;
+}

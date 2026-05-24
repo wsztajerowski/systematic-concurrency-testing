@@ -54,6 +54,7 @@ release.properties
 
 jcstress-results/
 jcstress-report/
+jcstress-results-*.bin.gz
 
 ############################################
 # Node.js
