@@ -4,7 +4,7 @@ import pl.wsztajerowski.demo.lamport.LamportBuffer;
 import pl.wsztajerowski.demo.lamport.mpmc.LockBasedLamportBuffer;
 
 class LockBasedLamportBufferFrayTest
-    extends AbstractLamportBufferFrayTest {
+    extends AbstractMPMCLamportBufferFrayTest {
 
     @Override
     protected <T> LamportBuffer<T> createBuffer(Class<T> clazz, int capacity) {

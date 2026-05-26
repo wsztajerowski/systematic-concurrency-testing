@@ -2,13 +2,13 @@ package pl.wsztajerowski.demo.lamport.contracttest;
 
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import pl.wsztajerowski.demo.lamport.LamportBuffer;
 import pl.wsztajerowski.demo.lamport.mpmc.LockBasedLamportBuffer;
-import pl.wsztajerowski.demo.lamport.singlethread.SingleThreadLamportBuffer;
+import pl.wsztajerowski.demo.lamport.mpmc.FastTrackLamportBuffer;
+import pl.wsztajerowski.demo.lamport.singlethread.NonVolatileLamportBuffer;
 import pl.wsztajerowski.demo.lamport.spsc.VolatileLamportBuffer;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,7 +16,6 @@ import static org.assertj.core.api.Assertions.catchException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static pl.wsztajerowski.demo.lamport.assertions.LamportAssertions.assertThat;
 
-@Disabled
 class LamportBufferContractTest {
 
     private static final int CAPACITY = 4;
@@ -28,8 +27,9 @@ class LamportBufferContractTest {
     private static Stream<Implementation> implementations() {
         return Stream.of(
             new Implementation("01 volatile-based", VolatileLamportBuffer::createBuffer),
-            new Implementation("02 single-thread", SingleThreadLamportBuffer::createBuffer),
-            new Implementation("03 lock-based", LockBasedLamportBuffer::createBuffer)
+            new Implementation("02 single-thread", NonVolatileLamportBuffer::createBuffer),
+            new Implementation("03 lock-based", LockBasedLamportBuffer::createBuffer),
+            new Implementation("03 optimistic", FastTrackLamportBuffer::createBuffer)
         );
     }
 

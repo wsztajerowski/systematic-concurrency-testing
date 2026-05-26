@@ -1,13 +1,12 @@
 package pl.wsztajerowski.demo.lamport.jcstress;
 
 import org.openjdk.jcstress.annotations.Actor;
-import org.openjdk.jcstress.annotations.Arbiter;
 import org.openjdk.jcstress.annotations.JCStressTest;
 import org.openjdk.jcstress.annotations.Outcome;
 import org.openjdk.jcstress.annotations.State;
 import org.openjdk.jcstress.infra.results.II_Result;
 import pl.wsztajerowski.demo.lamport.LamportBuffer;
-import pl.wsztajerowski.demo.lamport.singlethread.SingleThreadLamportBuffer;
+import pl.wsztajerowski.demo.lamport.singlethread.NonVolatileLamportBuffer;
 
 import static org.openjdk.jcstress.annotations.Expect.ACCEPTABLE;
 import static org.openjdk.jcstress.annotations.Expect.ACCEPTABLE_INTERESTING;
@@ -26,7 +25,7 @@ import static org.openjdk.jcstress.annotations.Expect.FORBIDDEN;
  *
  * Interesting / forbidden outcomes that reveal non-volatile bugs:
  *   (42, 42)  — consumer read value but did NOT clear it (stale readPosition
- *               not flushed → arbiter re-reads the same slot)
+ *               not flushed → other  re-reads the same slot)
  *   (-1, -1)  — value lost entirely (arbiter can't find it either)
  */
 @JCStressTest
@@ -44,7 +43,13 @@ import static org.openjdk.jcstress.annotations.Expect.FORBIDDEN;
 @State
 public class SingleThreadLamportBufferOfferPollStress {
 
-    private final LamportBuffer<Integer> buffer = SingleThreadLamportBuffer.createBuffer(Integer.class, 2);
+    private final LamportBuffer<Integer> buffer = prefilledBuffer();
+
+    private static LamportBuffer<Integer> prefilledBuffer() {
+        LamportBuffer<Integer> buffer = NonVolatileLamportBuffer.createBuffer(Integer.class, 2);
+
+        return buffer;
+    }
 
     @Actor
     public void producer() {
@@ -56,7 +61,7 @@ public class SingleThreadLamportBufferOfferPollStress {
         r.r1 = buffer.poll().orElse(-1);
     }
 
-    @Arbiter
+    @Actor
     public void arbiter(II_Result r) {
         r.r2 = buffer.poll().orElse(-1);
     }

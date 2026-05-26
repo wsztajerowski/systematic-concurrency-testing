@@ -21,10 +21,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  * check and the poll() call, another thread can consume the only element,
  * leaving the second caller with Optional.empty() and a crashing .get().
  */
+@Disabled
 @ExtendWith(FrayTestExtension.class)
 class TocTouCompoundActionFrayTest {
 
-    @Disabled
     @ConcurrencyTest
     void emptyCheckAndPollMustBeAtomic() throws InterruptedException {
         LamportBuffer<Integer> buffer = LockBasedLamportBuffer.createBuffer(Integer.class, 4);

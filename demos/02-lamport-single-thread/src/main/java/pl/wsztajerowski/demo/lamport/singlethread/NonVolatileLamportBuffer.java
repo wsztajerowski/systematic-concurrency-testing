@@ -1,17 +1,17 @@
 package pl.wsztajerowski.demo.lamport.singlethread;
 
+import pl.wsztajerowski.demo.lamport.LamportBuffer;
+
 import java.lang.reflect.Array;
 import java.util.Objects;
 import java.util.Optional;
 
-import pl.wsztajerowski.demo.lamport.LamportBuffer;
-
-public final class SingleThreadLamportBuffer<E> implements LamportBuffer<E> {
+public final class NonVolatileLamportBuffer<E> implements LamportBuffer<E> {
     private int readPosition;
     private int writePosition;
     private final E[] buffer;
 
-    SingleThreadLamportBuffer(E[] buffer) {
+    NonVolatileLamportBuffer(E[] buffer) {
         this.readPosition = 0;
         this.writePosition = 0;
         this.buffer = buffer;
@@ -22,16 +22,17 @@ public final class SingleThreadLamportBuffer<E> implements LamportBuffer<E> {
             throw new IllegalArgumentException("bufferSize must be >= 1");
         }
         T[] buffer = (T[]) Array.newInstance(clazz, bufferSize);
-        return new SingleThreadLamportBuffer<>(buffer);
+        return new NonVolatileLamportBuffer<>(buffer);
     }
 
     @Override
     public boolean offer(E value) {
+        Objects.requireNonNull(value, "value must not be null");
         if (isFull()) {
             return false;
         }
         buffer[writePosition] = value;
-        writePosition = writePosition + 1; // brak volatile publication
+        writePosition = writePosition + 1; // missing volatile publication
         if (writePosition == buffer.length) {
             writePosition = 0;
         }
@@ -46,7 +47,7 @@ public final class SingleThreadLamportBuffer<E> implements LamportBuffer<E> {
         }
         Object value = buffer[readPosition];
         buffer[readPosition] = null;
-        readPosition = readPosition + 1; // brak volatile publication
+        readPosition = readPosition + 1; // missing volatile publication
         if (readPosition == buffer.length) {
             readPosition = 0;
         }
@@ -60,7 +61,13 @@ public final class SingleThreadLamportBuffer<E> implements LamportBuffer<E> {
 
     @Override
     public int size() {
-        return writePosition >= readPosition ? writePosition - readPosition : writePosition - readPosition + 2 * buffer.length;
+        if (writePosition == readPosition) {
+            return buffer[readPosition] == null ? 0 : buffer.length;
+        }
+
+        return writePosition > readPosition
+                ? writePosition - readPosition
+                : buffer.length - readPosition + writePosition;
     }
 
     private boolean isFull() {

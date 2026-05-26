@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.pastalab.fray.junit.junit5.FrayTestExtension;
 import org.pastalab.fray.junit.junit5.annotations.ConcurrencyTest;
+import pl.wsztajerowski.demo.lamport.mpmc.ConditionalLamportBuffer;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -24,9 +25,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ConditionalLamportBufferFrayTest {
 
     @Disabled
-    @ConcurrencyTest
+    @ConcurrencyTest(replay = "../results/fray/fray-report/pl.wsztajerowski.demo.lamport.fray.edgecase.ConditionalLamportBufferFrayTest/spuriousWakeupCausesReadFromEmptyBuffer/recording")
     void spuriousWakeupCausesReadFromEmptyBuffer() throws InterruptedException {
-        pl.wsztajerowski.demo.lamport.mpmc.ConditionalLamportBuffer<Integer> buffer = new pl.wsztajerowski.demo.lamport.mpmc.ConditionalLamportBuffer<>(Integer.class, 4);
+        ConditionalLamportBuffer<Integer> buffer = new ConditionalLamportBuffer<>(Integer.class, 4);
         AtomicReference<Integer> consumed = new AtomicReference<>();
 
         Thread consumer = Thread.ofPlatform().name("consumer").start(() -> {

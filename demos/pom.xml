@@ -18,6 +18,7 @@
         <module>04-contract-tests</module>
         <module>05-fray</module>
         <module>06-jcstress</module>
+        <module>07-jmh</module>
     </modules>
 
     <properties>

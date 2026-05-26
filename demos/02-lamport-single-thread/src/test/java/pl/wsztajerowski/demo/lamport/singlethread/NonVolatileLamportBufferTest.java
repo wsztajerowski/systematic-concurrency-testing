@@ -7,13 +7,13 @@ import pl.wsztajerowski.demo.lamport.LamportBuffer;
 
 import static pl.wsztajerowski.demo.lamport.assertions.LamportAssertions.assertThat;
 
-class SingleThreadLamportBufferTest {
+class NonVolatileLamportBufferTest {
 
     private LamportBuffer<Integer> sut;
 
     @BeforeEach
     void setUp() {
-        sut = SingleThreadLamportBuffer.createBuffer(Integer.class, 4);
+        sut = NonVolatileLamportBuffer.createBuffer(Integer.class, 4);
     }
 
     @Test

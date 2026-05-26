@@ -6,7 +6,7 @@ import org.openjdk.jcstress.annotations.Outcome;
 import org.openjdk.jcstress.annotations.State;
 import org.openjdk.jcstress.infra.results.II_Result;
 import pl.wsztajerowski.demo.lamport.LamportBuffer;
-import pl.wsztajerowski.demo.lamport.singlethread.SingleThreadLamportBuffer;
+import pl.wsztajerowski.demo.lamport.singlethread.NonVolatileLamportBuffer;
 
 import static org.openjdk.jcstress.annotations.Expect.ACCEPTABLE;
 import static org.openjdk.jcstress.annotations.Expect.ACCEPTABLE_INTERESTING;
@@ -56,7 +56,7 @@ import static org.openjdk.jcstress.annotations.Expect.FORBIDDEN;
 public class SingleThreadLamportBufferMultiOpStress {
 
     private final LamportBuffer<Integer> buffer =
-            SingleThreadLamportBuffer.createBuffer(Integer.class, 4);
+            NonVolatileLamportBuffer.createBuffer(Integer.class, 4);
 
     @Actor
     public void producer() {

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.pastalab.fray.junit.junit5.FrayTestExtension;
 import org.pastalab.fray.junit.junit5.annotations.ConcurrencyTest;
 import pl.wsztajerowski.demo.lamport.LamportBuffer;
+import pl.wsztajerowski.demo.lamport.mpmc.FastTrackLamportBuffer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,12 +24,12 @@ import static org.assertj.core.api.Assertions.assertThat;
  * causing a NullPointerException.
  */
 @ExtendWith(FrayTestExtension.class)
-class OptimisticLamportBufferFrayTest {
+class FastTrackLamportBufferFrayTest {
 
-    @Disabled
+//    @Disabled
     @ConcurrencyTest
     void twoConsumersOnSingleElementMustNotCrash() throws InterruptedException {
-        LamportBuffer<Integer> buffer = pl.wsztajerowski.demo.lamport.mpmc.OptimisticLamportBuffer.createBuffer(Integer.class, 4);
+        LamportBuffer<Integer> buffer = FastTrackLamportBuffer.createBuffer(Integer.class, 4);
         buffer.offer(42);
         List<Integer> consumed = Collections.synchronizedList(new ArrayList<>());
 

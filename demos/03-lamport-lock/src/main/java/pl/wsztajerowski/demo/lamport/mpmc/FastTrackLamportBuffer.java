@@ -16,20 +16,20 @@ import java.util.concurrent.locks.ReentrantLock;
  * unlocked check, and the second one reads a null slot after the first
  * has already consumed the element and advanced readPosition.
  */
-public final class OptimisticLamportBuffer<E> implements LamportBuffer<E> {
+public final class FastTrackLamportBuffer<E> implements LamportBuffer<E> {
     private int readPosition;
     private int writePosition;
     private final E[] buffer;
     private final Lock lock = new ReentrantLock();
 
-    private OptimisticLamportBuffer(E[] buffer) {
+    private FastTrackLamportBuffer(E[] buffer) {
         this.buffer = buffer;
     }
 
     @SuppressWarnings("unchecked")
     public static <T> LamportBuffer<T> createBuffer(Class<T> clazz, int bufferSize) {
         if (bufferSize < 1) throw new IllegalArgumentException("bufferSize must be >= 1");
-        return new OptimisticLamportBuffer<>((T[]) Array.newInstance(clazz, bufferSize));
+        return new FastTrackLamportBuffer<>((T[]) Array.newInstance(clazz, bufferSize));
     }
 
     @Override
