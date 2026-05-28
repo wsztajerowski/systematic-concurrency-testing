@@ -5,7 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.pastalab.fray.junit.junit5.FrayTestExtension;
 import org.pastalab.fray.junit.junit5.annotations.ConcurrencyTest;
 import pl.wsztajerowski.demo.lamport.LamportBuffer;
-import pl.wsztajerowski.demo.lamport.mpmc.FastTrackLamportBuffer;
+import pl.wsztajerowski.demo.lamport.mpmc.FastPathLamportBuffer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,9 +14,9 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Idea 3 — Optimistic lock-free fast path without re-verification.
+ * Idea 3 — Lock-based queue with an unlocked fast-path that skips re-verification.
  *
- * OptimisticLamportBuffer checks buffer[readPosition] == null outside the lock
+ * FastPathLamportBuffer checks buffer[readPosition] == null outside the lock
  * as a fast-path early return. When two consumers both pass that unlocked check,
  * they serialize on the lock. The first consumer reads the element and advances
  * readPosition. The second consumer, now inside the lock, reads the slot that
@@ -24,12 +24,12 @@ import static org.assertj.core.api.Assertions.assertThat;
  * causing a NullPointerException.
  */
 @ExtendWith(FrayTestExtension.class)
-class FastTrackLamportBufferFrayTest {
+class FastPathLamportBufferFrayTest {
 
 //    @Disabled
     @ConcurrencyTest
     void twoConsumersOnSingleElementMustNotCrash() throws InterruptedException {
-        LamportBuffer<Integer> buffer = FastTrackLamportBuffer.createBuffer(Integer.class, 4);
+        LamportBuffer<Integer> buffer = FastPathLamportBuffer.createBuffer(Integer.class, 4);
         buffer.offer(42);
         List<Integer> consumed = Collections.synchronizedList(new ArrayList<>());
 

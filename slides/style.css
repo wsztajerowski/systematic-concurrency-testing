@@ -14,11 +14,88 @@
 .section-jcstress .slidev-layout { background: linear-gradient(135deg, #281406 0%, #522808 100%); }
 .section-jmh      .slidev-layout { background: linear-gradient(135deg, #081e08 0%, #0d4018 100%); }
 
+/* ── Cover slide ─────────────────────────────────────────────────── */
+.cover-slide .slidev-layout {
+  background: radial-gradient(ellipse at top, #1a0820 0%, #050008 70%);
+}
+.cover-eyebrow {
+  font-size: 0.9em;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--c-red);
+  margin-bottom: 1.2rem;
+  opacity: 0.85;
+}
+.cover-subtitle {
+  font-size: 1.15em;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.78);
+  max-width: 38ch;
+  margin: 1.4rem auto 0;
+}
+.cover-subtitle em { color: var(--c-orange); font-style: italic; }
+
+.cover-tools-row {
+  margin-top: 2.4rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.85em;
+  border: 1px solid currentColor;
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}
+.chip.blue   { color: var(--c-blue);   }
+.chip.purple { color: var(--c-purple); }
+.chip.orange { color: var(--c-orange); }
+.chip.green  { color: var(--c-green);  }
+
+/* ── Section eyebrow tag ─────────────────────────────────────────── */
+.section-eyebrow {
+  font-size: 0.85em;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* ── Inline icon helpers ─────────────────────────────────────────── */
+.inline-ico {
+  display: inline-block;
+  vertical-align: -0.15em;
+  font-size: 1.05em;
+}
+.ico-blue   { color: var(--c-blue);   }
+.ico-purple { color: var(--c-purple); }
+.ico-orange { color: var(--c-orange); }
+.ico-green  { color: var(--c-green);  }
+.ico-red    { color: var(--c-red);    }
+.ico-yellow { color: var(--c-yellow); }
+
 /* ── Card component ───────────────────────────────────────────────── */
 .card {
   border: 1px solid currentColor;
-  border-radius: 8px;
-  padding: 0.9rem 1.1rem;
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  position: relative;
+  transition: transform 0.15s ease;
+}
+.card:hover { transform: translateY(-2px); }
+
+.card .card-icon {
+  font-size: 1.6em;
+  margin-bottom: 0.3rem;
+  opacity: 0.9;
 }
 
 .card.blue   { color: var(--c-blue);   background: color-mix(in srgb, var(--c-blue)   8%, transparent); }
@@ -28,9 +105,9 @@
 .card.red    { color: var(--c-red);    background: color-mix(in srgb, var(--c-red)    8%, transparent); }
 .card.yellow { color: var(--c-yellow); background: color-mix(in srgb, var(--c-yellow) 8%, transparent); }
 
-.card strong { display: block; font-size: 1.05em; margin-bottom: 0.2em; }
+.card strong { display: block; font-size: 1.1em; margin-bottom: 0.2em; }
 .card small  { display: block; color: rgba(255,255,255,0.72); font-size: 0.75em; margin-top: 0.15em; }
-.card p      { color: rgba(255,255,255,0.8); font-size: 0.85em; margin: 0.3em 0 0; }
+.card p      { color: rgba(255,255,255,0.85); font-size: 0.85em; margin: 0.4em 0 0; }
 
 /* ── Grid helpers ─────────────────────────────────────────────────── */
 .tools-grid {
@@ -42,31 +119,58 @@
 
 .impl-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 0.9rem;
   margin-top: 1.2rem;
+}
+
+.two-col-code {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
 }
 
 /* ── Callout / take-away ──────────────────────────────────────────── */
 .callout {
   margin-top: 1.4rem;
-  padding: 0.75rem 1.2rem;
+  padding: 0.85rem 1.2rem;
   border-left: 3px solid rgba(255,255,255,0.25);
   background: rgba(255,255,255,0.04);
   border-radius: 0 6px 6px 0;
-  font-size: 0.9em;
-  color: rgba(255,255,255,0.75);
+  font-size: 0.92em;
+  color: rgba(255,255,255,0.82);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
-.callout.blue   { border-color: var(--c-blue);   }
-.callout.purple { border-color: var(--c-purple);  }
-.callout.orange { border-color: var(--c-orange);  }
-.callout.green  { border-color: var(--c-green);   }
-.callout.yellow { border-color: var(--c-yellow);  }
+.callout.blue   { border-color: var(--c-blue);   background: color-mix(in srgb, var(--c-blue)   6%, rgba(255,255,255,0.04)); }
+.callout.purple { border-color: var(--c-purple); background: color-mix(in srgb, var(--c-purple) 6%, rgba(255,255,255,0.04)); }
+.callout.orange { border-color: var(--c-orange); background: color-mix(in srgb, var(--c-orange) 6%, rgba(255,255,255,0.04)); }
+.callout.green  { border-color: var(--c-green);  background: color-mix(in srgb, var(--c-green)  6%, rgba(255,255,255,0.04)); }
+.callout.yellow { border-color: var(--c-yellow); background: color-mix(in srgb, var(--c-yellow) 6%, rgba(255,255,255,0.04)); }
+.callout.red    { border-color: var(--c-red);    background: color-mix(in srgb, var(--c-red)    6%, rgba(255,255,255,0.04)); }
+
+.callout.big-callout {
+  font-size: 1.15em;
+  line-height: 1.7;
+  padding: 1.1rem 1.5rem;
+}
+
+/* ── Big block quote ─────────────────────────────────────────────── */
+.big-quote {
+  font-size: 1.35em;
+  line-height: 1.5;
+  border-left: 4px solid var(--c-purple);
+  padding: 0.5rem 1.2rem;
+  margin: 1.2rem 0;
+  color: rgba(255,255,255,0.92);
+  font-style: italic;
+}
 
 /* ── Golden rules ─────────────────────────────────────────────────── */
 .rule {
-  padding: 0.65rem 1rem;
+  padding: 0.75rem 1.1rem;
   margin-bottom: 1.1rem;
   border-left: 3px solid;
   border-radius: 0 6px 6px 0;
@@ -74,16 +178,100 @@
 }
 
 .rule:nth-child(1) { border-color: var(--c-blue);   }
-.rule:nth-child(2) { border-color: var(--c-purple);  }
-.rule:nth-child(3) { border-color: var(--c-green);   }
+.rule:nth-child(2) { border-color: var(--c-purple); }
+.rule:nth-child(3) { border-color: var(--c-green);  }
 
-.rule h2 { font-size: 1em; margin: 0 0 0.25em; }
-.rule p  { font-size: 0.85em; color: rgba(255,255,255,0.78); margin: 0; }
+.rule h2 { font-size: 1.05em; margin: 0 0 0.3em; }
+.rule p  { font-size: 0.88em; color: rgba(255,255,255,0.78); margin: 0; }
 
-/* ── Cover subtitle ───────────────────────────────────────────────── */
-.cover-tools {
-  margin-top: 2rem;
-  font-size: 1.1em;
-  color: rgba(255,255,255,0.72);
+/* ── Memory diagrams ─────────────────────────────────────────────── */
+.mem-diagram {
+  margin-top: 0.8rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.mem-diagram.bad  { background: color-mix(in srgb, var(--c-red)   8%, transparent); border-color: color-mix(in srgb, var(--c-red)   25%, transparent); }
+.mem-diagram.good { background: color-mix(in srgb, var(--c-green) 8%, transparent); border-color: color-mix(in srgb, var(--c-green) 25%, transparent); }
+
+/* ── Buffer visualization ────────────────────────────────────────── */
+.buffer-viz {
+  margin-top: 0.5rem;
+  font-size: 0.95em;
+}
+
+/* ── Verdict line ────────────────────────────────────────────────── */
+.verdict {
+  margin-top: 1.6rem;
+  padding-top: 0.8rem;
+  border-top: 1px dashed rgba(255,255,255,0.18);
+  font-size: 0.95em;
+  color: rgba(255,255,255,0.78);
+}
+.verdict-label {
+  color: rgba(255,255,255,0.55);
+  font-weight: 600;
   letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.8em;
+  margin-right: 0.5rem;
+}
+
+/* ── VS table ────────────────────────────────────────────────────── */
+.vs-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.vs-table th,
+.vs-table td {
+  padding: 0.55rem 0.8rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.vs-table th {
+  text-align: left;
+  font-weight: 600;
+  color: rgba(255,255,255,0.95);
+}
+
+/* ── Pyramid wrapper ─────────────────────────────────────────────── */
+.pyramid pre {
+  background: transparent !important;
+  font-size: 0.95em;
+  line-height: 1.5;
+}
+
+/* ── Slide subtitle (under H1) ───────────────────────────────────── */
+.slide-subtitle {
+  color: rgba(255,255,255,0.55);
+  font-size: 0.95em;
+  margin: -0.4rem 0 1rem;
+  font-style: italic;
+}
+.slide-subtitle code {
+  font-style: normal;
+  color: rgba(255,255,255,0.78);
+}
+
+/* ── Subtle note ─────────────────────────────────────────────────── */
+.subtle-note {
+  margin-top: 1.6rem;
+  font-style: italic;
+  color: rgba(255,255,255,0.45);
+  font-size: 0.95em;
+  text-align: center;
+}
+
+/* ── Thank-you slide ─────────────────────────────────────────────── */
+.thank-you .slidev-layout {
+  background: radial-gradient(ellipse at center, #1a0820 0%, #050008 70%);
+}
+.signoff {
+  color: rgba(255,255,255,0.55);
+  font-size: 0.95em;
+  line-height: 1.6;
+}
+.signoff em { color: var(--c-orange); }
+.footer-title {
+  color: rgba(255,255,255,0.3);
+  font-size: 0.85em;
 }

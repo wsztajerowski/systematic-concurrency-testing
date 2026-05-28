@@ -7,7 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import pl.wsztajerowski.demo.lamport.LamportBuffer;
 import pl.wsztajerowski.demo.lamport.mpmc.LockBasedLamportBuffer;
-import pl.wsztajerowski.demo.lamport.mpmc.FastTrackLamportBuffer;
+import pl.wsztajerowski.demo.lamport.mpmc.FastPathLamportBuffer;
 import pl.wsztajerowski.demo.lamport.singlethread.NonVolatileLamportBuffer;
 import pl.wsztajerowski.demo.lamport.spsc.VolatileLamportBuffer;
 
@@ -29,7 +29,7 @@ class LamportBufferContractTest {
             new Implementation("01 volatile-based", VolatileLamportBuffer::createBuffer),
             new Implementation("02 single-thread", NonVolatileLamportBuffer::createBuffer),
             new Implementation("03 lock-based", LockBasedLamportBuffer::createBuffer),
-            new Implementation("03 optimistic", FastTrackLamportBuffer::createBuffer)
+            new Implementation("04 fast-path", FastPathLamportBuffer::createBuffer)
         );
     }
 
