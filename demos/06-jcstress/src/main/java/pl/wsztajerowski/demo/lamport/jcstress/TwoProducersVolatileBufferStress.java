@@ -12,6 +12,7 @@ import static org.openjdk.jcstress.annotations.Expect.ACCEPTABLE;
 import static org.openjdk.jcstress.annotations.Expect.ACCEPTABLE_INTERESTING;
 import static org.openjdk.jcstress.annotations.Expect.FORBIDDEN;
 
+// This test will
 @JCStressTest
 @Outcome(id = {"1, 0, 1", "1, 0, -1"}, expect = ACCEPTABLE,
         desc = "P1 offered, P2 backed off; consumer may or may not observe the value.")
@@ -24,7 +25,7 @@ import static org.openjdk.jcstress.annotations.Expect.FORBIDDEN;
 @State
 public class TwoProducersVolatileBufferStress {
 
-    private final LamportBuffer<Integer> buffer = VolatileLamportBuffer.createBuffer(Integer.class, 1);
+    private final LamportBuffer<Integer> buffer = VolatileLamportBuffer.createBuffer(Integer.class, 2);
 
     @Actor
     public void producer1(III_Result r) {

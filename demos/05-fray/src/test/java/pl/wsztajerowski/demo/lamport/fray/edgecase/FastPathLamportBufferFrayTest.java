@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Idea 3 — Lock-based queue with an unlocked fast-path that skips re-verification.
- *
+ * <p>
  * FastPathLamportBuffer checks buffer[readPosition] == null outside the lock
  * as a fast-path early return. When two consumers both pass that unlocked check,
  * they serialize on the lock. The first consumer reads the element and advances
@@ -23,10 +23,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  * readPosition now points to — which is null — and passes it to Optional.of(),
  * causing a NullPointerException.
  */
+@Disabled("This is an example of failing test")
 @ExtendWith(FrayTestExtension.class)
 class FastPathLamportBufferFrayTest {
 
-//    @Disabled
     @ConcurrencyTest
     void twoConsumersOnSingleElementMustNotCrash() throws InterruptedException {
         LamportBuffer<Integer> buffer = FastPathLamportBuffer.createBuffer(Integer.class, 4);

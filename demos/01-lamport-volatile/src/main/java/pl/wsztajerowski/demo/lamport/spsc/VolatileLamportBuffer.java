@@ -61,13 +61,15 @@ public final class VolatileLamportBuffer<E> implements LamportBuffer<E> {
 
     @Override
     public int size() {
-        if (writePosition == readPosition) {
-            return buffer[readPosition] == null ? 0 : buffer.length;
+        int head = writePosition;
+        int tail = readPosition;
+        if (head == tail) {
+            return buffer[head] == null ? 0 : buffer.length;
         }
 
-        return writePosition > readPosition
-                ? writePosition - readPosition
-                : buffer.length - readPosition + writePosition;
+        return head > tail
+                ? head - tail
+                : buffer.length - tail + head;
     }
 
     private boolean isFull() {

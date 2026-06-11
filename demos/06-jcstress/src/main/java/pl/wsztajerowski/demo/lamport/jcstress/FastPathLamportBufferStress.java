@@ -7,7 +7,6 @@ import org.openjdk.jcstress.annotations.State;
 import org.openjdk.jcstress.infra.results.I_Result;
 import pl.wsztajerowski.demo.lamport.LamportBuffer;
 import pl.wsztajerowski.demo.lamport.mpmc.FastPathLamportBuffer;
-import pl.wsztajerowski.demo.lamport.mpmc.LockBasedLamportBuffer;
 
 import static org.openjdk.jcstress.annotations.Expect.ACCEPTABLE;
 import static org.openjdk.jcstress.annotations.Expect.FORBIDDEN;

@@ -4,7 +4,7 @@ import pl.wsztajerowski.demo.lamport.LamportBuffer;
 import pl.wsztajerowski.demo.lamport.singlethread.NonVolatileLamportBuffer;
 
 class NonVolatileLamportBufferFrayTest
-    extends AbstractMPMCLamportBufferFrayTest
+    extends AbstractSPSCLamportBufferFrayTest
 {
 
     @Override

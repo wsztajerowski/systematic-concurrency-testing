@@ -1,4 +1,4 @@
-package pl.wsztajerowski.demo.lamport.fray;
+package pl.wsztajerowski.demo.lamport.fray.edgecase;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,14 +14,15 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Idea 1 — TOCTOU: thread-safe objects do not compose into thread-safe operations.
+ * TOCTOU: thread-safe objects do not compose into thread-safe operations.
  *
  * LockBasedLamportBuffer is internally correct, but the compound client-side
  * pattern "if (!isEmpty()) poll().get()" is not atomic. Between the isEmpty()
  * check and the poll() call, another thread can consume the only element,
  * leaving the second caller with Optional.empty() and a crashing .get().
  */
-@Disabled
+@Disabled("Intentionally failing demo — illustrates a TOCTOU race between isEmpty() and poll(). " +
+        "Enable to let Fray find the interleaving where the second consumer crashes with NoSuchElementException.")
 @ExtendWith(FrayTestExtension.class)
 class TocTouCompoundActionFrayTest {
 

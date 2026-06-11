@@ -7,7 +7,13 @@ import pl.wsztajerowski.demo.lamport.singlethread.NonVolatileLamportBuffer;
 
 import java.util.Optional;
 
-@JCStressTest
+/*
+    This test shows value lost entirely due to lack of visibility guarantees in the non-volatile buffer.
+    The producer offers an element, but the consumer fails to see it and polls an empty buffer instead.
+    The arbiter then polls the buffer again, and also fails to see the element, confirming that it was lost
+    rather than just observed by the consumer before the producer's offer.
+ */
+//@JCStressTest
 @Outcome(id = "1, 1, 0", expect = Expect.ACCEPTABLE, desc = "Producer offers the element, then consumer polls it")
 @Outcome(id = "1, 0, 1", expect = Expect.ACCEPTABLE, desc = "Consumer polls the element, before producer offers")
 @Outcome(id = "0, *", expect = Expect.ACCEPTABLE_INTERESTING, desc = "Producer failed to offer the element - possible bug in buffer")

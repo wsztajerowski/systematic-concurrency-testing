@@ -4,7 +4,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.pastalab.fray.junit.junit5.FrayTestExtension;
 import org.pastalab.fray.junit.junit5.annotations.ConcurrencyTest;
 import pl.wsztajerowski.demo.lamport.LamportBuffer;
-import pl.wsztajerowski.demo.lamport.singlethread.NonVolatileLamportBuffer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,17 +20,20 @@ abstract class AbstractSPSCLamportBufferFrayTest {
     @ConcurrencyTest()
     void fifoOrderUnderConcurrency() throws InterruptedException {
         List<Integer> consumed = Collections.synchronizedList(new ArrayList<>());
-        LamportBuffer<Integer> buffer = NonVolatileLamportBuffer.createBuffer(Integer.class, 8);
+        LamportBuffer<Integer> buffer = createBuffer(Integer.class, 8);
 //        buffer.offer(1);
         var producer = Thread.ofPlatform()
             .name("fray-producer")
             .start(() -> {
                 int i = 1;
-                while (i <= 5) {
+                do {
                     boolean offer = buffer.offer(i);
                     if (offer) {
                         i++;
                     }
+                } while (i <= 5);
+                if (i != 6) {
+                    throw new RuntimeException("Producer failed to offer all elements");
                 }
             });
         var consumer = Thread.ofPlatform().name("fray-consumer").start(() -> {

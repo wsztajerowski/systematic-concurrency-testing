@@ -241,6 +241,61 @@ class LamportBufferContractTest {
 
     @ParameterizedTest(name = "{0}")
     @MethodSource("implementations")
+    @DisplayName("Size does not change when offer is rejected on full buffer")
+    void sizeDoesNotChangeWhenOfferRejectedOnFullBuffer(Implementation implementation) {
+        LamportBuffer<Integer> sut = createIntBuffer(implementation);
+
+        for (int i = 0; i < CAPACITY; i++) {
+            assertThat(sut).offers(i);
+        }
+        assertThat(sut)
+            .hasSize(CAPACITY)
+            .rejectsOffer(99)
+            .hasSize(CAPACITY);
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("implementations")
+    @DisplayName("Size remains zero when polling empty buffer")
+    void sizeRemainsZeroWhenPollingEmptyBuffer(Implementation implementation) {
+        LamportBuffer<Integer> sut = createIntBuffer(implementation);
+
+        assertThat(sut)
+            .hasSize(0)
+            .pollsEmpty()
+            .hasSize(0)
+            .pollsEmpty()
+            .hasSize(0);
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("implementations")
+    @DisplayName("Size stays accurate across wrap-around transitions")
+    void sizeStaysAccurateAcrossWrapAroundTransitions(Implementation implementation) {
+        LamportBuffer<Integer> sut = createIntBuffer(implementation);
+
+        assertThat(sut)
+            .offers(1)
+            .offers(2)
+            .offers(3)
+            .offers(4)
+            .hasSize(4)
+            .pollsValue(1)
+            .pollsValue(2)
+            .hasSize(2)
+            .offers(5)
+            .offers(6)
+            .hasSize(4)
+            .pollsValue(3)
+            .pollsValue(4)
+            .pollsValue(5)
+            .pollsValue(6)
+            .hasSize(0)
+            .pollsEmpty();
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("implementations")
     @DisplayName("Null values are rejected")
     void rejectsNullValues(Implementation implementation) {
         LamportBuffer<Integer> sut = createIntBuffer(implementation);

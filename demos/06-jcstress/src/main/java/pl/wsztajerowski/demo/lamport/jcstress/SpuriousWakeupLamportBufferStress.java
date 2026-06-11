@@ -5,11 +5,7 @@ import org.openjdk.jcstress.annotations.JCStressTest;
 import org.openjdk.jcstress.annotations.Outcome;
 import org.openjdk.jcstress.annotations.State;
 import org.openjdk.jcstress.infra.results.I_Result;
-import pl.wsztajerowski.demo.lamport.LamportBuffer;
 import pl.wsztajerowski.demo.lamport.mpmc.ConditionalLamportBuffer;
-import pl.wsztajerowski.demo.lamport.mpmc.LockBasedLamportBuffer;
-
-import java.util.concurrent.atomic.AtomicReference;
 
 import static org.openjdk.jcstress.annotations.Expect.ACCEPTABLE;
 import static org.openjdk.jcstress.annotations.Expect.FORBIDDEN;

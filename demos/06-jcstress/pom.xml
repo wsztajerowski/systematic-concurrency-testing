@@ -14,9 +14,6 @@
 
     <artifactId>06-jcstress</artifactId>
 
-    <properties>
-        <jcstress.version>0.16</jcstress.version>
-    </properties>
 
     <dependencies>
         <dependency>
